@@ -23,17 +23,32 @@ const Login =({navigation})=> {
         })
     }
 
+    const vali = (item) => {
+        fetch("http://10.0.2.2:3000/" + voterID)
+        .then(res => res.json())
+        .then(results => {
+            //console.log(results)
+            setData(results)
+            //setloading(false)
+        }).catch(err => {
+            Alert.alert("Something went wrong")
+        })
+
+        console.log(item.userId, voterID)
+        if (voterID === `${item.userId}`) {
+            navigation.navigate("Profile", {item})
+        } else {
+            Alert.alert("Your Voter's ID is wrong")
+        }
+    }
+
     useEffect(() => {
         fetchData()
     }, [])
+    //console.log(item, voterID)
+
      const renderList = ((item) => {
-        const vali = () => {
-            if (voterID == `${item.userId}`) {
-                navigation.navigate("Profile", {item})
-            } else {
-                Alert.alert("Your Voter's ID is wrong")
-            }
-        }
+        
         return (
             <ImageBackground
             style={styles.ImgStyle}
@@ -54,7 +69,7 @@ const Login =({navigation})=> {
                         mode="contained"
                         labelStyle = ""
                         theme = {{colors:{primary: '#8f8d88'}}}
-                        onPress={() => vali()}
+                        onPress={() => vali(item)}
                         >
                         LOGIN
                     </Button>
@@ -72,7 +87,7 @@ const Login =({navigation})=> {
                         renderItem = {({item}) => {
                             return renderList(item)
                         }}
-                        keyExtractor = {item => `${item._id}`}
+                        keyExtractor = {item => `${item.userId}`}
                         onRefresh = {() => fetchData()}
                         refreshing = {loading}
                         

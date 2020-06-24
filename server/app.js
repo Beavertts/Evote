@@ -32,6 +32,16 @@ app.get('/',(req,res) => {
    })
 })
 
+app.get('/:id', (req, res) => {
+    const meme ={ userId: req.params.id}
+    Employee.find(meme)
+    .then(data => {
+        res.send(data)
+    }).catch (err => {
+        console.log(err)
+    })
+})
+
 //post route
 app.post('/send-data', (req,res) =>{
    const hemployee = new Employee({
@@ -61,14 +71,3 @@ app.listen(3000, () => {
 })
 
 
-
-
-
-    //    "name": "Cedric",
-    //    "email": "ccc@gmail.com",
-    //    "phone": "12345",
-    //    "salary": "20 cedis",
-    //    "position": "Full stack",
-    //    "picture": "some url"
-
-    
